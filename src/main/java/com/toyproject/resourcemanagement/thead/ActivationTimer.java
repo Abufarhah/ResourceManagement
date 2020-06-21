@@ -6,14 +6,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 public class ActivationTimer implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(ActivationTimer.class);
     Thread thread;
     ServerRepository serverRepository;
+    Map<Integer,Integer> waitingServers;
     int serverId;
 
-    public ActivationTimer(ServerRepository serverRepository, int serverId) {
+    public ActivationTimer(ServerRepository serverRepository, Map<Integer, Integer> waitingServers, int serverId) {
         this.serverRepository = serverRepository;
+        this.waitingServers = waitingServers;
         this.serverId = serverId;
     }
 
@@ -23,6 +27,14 @@ public class ActivationTimer implements Runnable {
 
     public void setServerRepository(ServerRepository serverRepository) {
         this.serverRepository = serverRepository;
+    }
+
+    public Map<Integer, Integer> getWaitingServers() {
+        return waitingServers;
+    }
+
+    public void setWaitingServers(Map<Integer, Integer> waitingServers) {
+        this.waitingServers = waitingServers;
     }
 
     public int getServerId() {
@@ -41,6 +53,7 @@ public class ActivationTimer implements Runnable {
         try {
             Thread.sleep(20000);
             server.setActive(true);
+            waitingServers.remove(serverId);
             serverRepository.save(server);
         } catch (InterruptedException e) {
             log.info(e.getMessage());

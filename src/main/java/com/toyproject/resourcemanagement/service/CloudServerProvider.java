@@ -55,7 +55,6 @@ public class CloudServerProvider {
             int spunServerId=spinServer();
             waitingServers.put(spunServerId,size);
             log.info(waitingServers.toString());
-            waitingServers.put(spunServerId,size);
             allocationThread=new AllocationThread(serverRepository,spunServerId,size);
             allocationThread.start();
         }
@@ -64,7 +63,7 @@ public class CloudServerProvider {
 
     public int spinServer(){
         Server server= new Server(++numberOfAllocatedServers,0,100,false);
-        ActivationTimer activationTimer=new ActivationTimer(serverRepository,server.getServerId());
+        ActivationTimer activationTimer=new ActivationTimer(serverRepository,waitingServers,server.getServerId());
         serverRepository.save(server);
         activationTimer.start();
         return server.getServerId();
