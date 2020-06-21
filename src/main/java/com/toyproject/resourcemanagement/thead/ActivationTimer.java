@@ -1,4 +1,5 @@
 package com.toyproject.resourcemanagement.thead;
+
 import com.toyproject.resourcemanagement.model.Server;
 import com.toyproject.resourcemanagement.repository.ServerRepository;
 import org.slf4j.Logger;
@@ -12,7 +13,7 @@ public class ActivationTimer implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(ActivationTimer.class);
     Thread thread;
     ServerRepository serverRepository;
-    Map<Integer,Integer> waitingServers;
+    Map<Integer, Integer> waitingServers;
     int serverId;
 
     public ActivationTimer(ServerRepository serverRepository, Map<Integer, Integer> waitingServers, int serverId) {
@@ -47,8 +48,8 @@ public class ActivationTimer implements Runnable {
 
     @Override
     public void run() {
-        log.info("running activation thread of server: "+serverId);
-        Server server=serverRepository.findOne(serverId);
+        log.info("running activation thread of server: " + serverId);
+        Server server = serverRepository.findOne(serverId);
         server.setActive(true);
         try {
             Thread.sleep(20000);
@@ -60,9 +61,9 @@ public class ActivationTimer implements Runnable {
         }
     }
 
-    public void start(){
-        log.info("Starting activation timer for server with id: "+serverId);
-        if(thread==null) {
+    public void start() {
+        log.info("Starting activation timer for server with id: " + serverId);
+        if (thread == null) {
             thread = new Thread(this, "timer of server " + serverId);
         }
         thread.start();
