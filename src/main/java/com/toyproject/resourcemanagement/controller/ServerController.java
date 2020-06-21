@@ -21,8 +21,7 @@ public class ServerController {
     @RequestMapping(path = "/servers", method = RequestMethod.GET)
     public ResponseEntity<String> getServer(@RequestParam int size) {
         log.info("controller");
-        serverService.allocateServer(size);
-        return new ResponseEntity<String>("A server with size: "+size+" was allocated",HttpStatus.OK);
+        String responeBody=serverService.allocateServer(size);
+        return new ResponseEntity<String>(responeBody,HttpStatus.OK);
     }
-
 }

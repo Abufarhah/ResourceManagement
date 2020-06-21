@@ -27,8 +27,9 @@ public class CloudServerProvider {
         Collections.sort(servers);
         boolean flag=false;
         Server targetServer=null;
+        System.out.println(waitingServers);
         for(Server server:servers){
-            if((waitingServers.get(server.getServerId())==null&&server.getFreeSize()>=size)||(100-waitingServers.get(server.getServerId()))>=size){
+            if((!waitingServers.containsKey(server.getServerId())&&server.getFreeSize()>=size)||(waitingServers.containsKey(    server.getServerId())&&(100-waitingServers.get(server.getServerId()))>=size)){
                 if(waitingServers.get(server.getServerId())!=null){
                     waitingServers.put(server.getServerId(),waitingServers.get(server.getServerId())+size);
                 }
@@ -46,7 +47,6 @@ public class CloudServerProvider {
 
     public void allocateServer(int size){
         Server targetServer=getIdOfAvailable(size);
-        System.out.println(targetServer);
         AllocationThread allocationThread;
         if(targetServer!=null) {
             allocationThread=new AllocationThread(serverRepository,targetServer.getServerId(),size);

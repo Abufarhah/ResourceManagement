@@ -52,7 +52,6 @@ public class AllocationThread implements Runnable {
                 server = serverRepository.findOne(serverId);
             }
             synchronized (serverRepository) {
-                System.out.println("update: " + serverId);
                 server = serverRepository.findOne(serverId);
                 server.setAllocatedSize(server.getAllocatedSize() + size);
                 server.setFreeSize(server.getFreeSize() - size);
