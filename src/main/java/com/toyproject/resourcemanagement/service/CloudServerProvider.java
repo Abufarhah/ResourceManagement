@@ -13,7 +13,7 @@ import java.util.*;
 
 @Service
 public class CloudServerProvider {
-    private static final Logger log = LoggerFactory.getLogger(ServerService.class);
+    private static final Logger log = LoggerFactory.getLogger(CloudServerProvider.class);
     public int numberOfAllocatedServers=0;
 
     @Autowired
@@ -21,15 +21,14 @@ public class CloudServerProvider {
 
     private Map<Integer,Integer> waitingServers=new HashMap<>();
 
-    public Server getIdOfAvailable(int size){
+    public synchronized Server getIdOfAvailable(int size){
         List<Server> servers=new ArrayList<>();
         serverRepository.findAll().forEach(servers::add);
         Collections.sort(servers);
         boolean flag=false;
         Server targetServer=null;
-        System.out.println(waitingServers);
         for(Server server:servers){
-            if((!waitingServers.containsKey(server.getServerId())&&server.getFreeSize()>=size)||(waitingServers.containsKey(    server.getServerId())&&(100-waitingServers.get(server.getServerId()))>=size)){
+            if((!waitingServers.containsKey(server.getServerId())&&server.getFreeSize()>=size)||(waitingServers.containsKey(server.getServerId())&&(100-waitingServers.get(server.getServerId()))>=size)){
                 if(waitingServers.get(server.getServerId())!=null){
                     waitingServers.put(server.getServerId(),waitingServers.get(server.getServerId())+size);
                 }
@@ -54,7 +53,6 @@ public class CloudServerProvider {
         }else{
             int spunServerId=spinServer();
             waitingServers.put(spunServerId,size);
-            log.info(waitingServers.toString());
             allocationThread=new AllocationThread(serverRepository,spunServerId,size);
             allocationThread.start();
         }
