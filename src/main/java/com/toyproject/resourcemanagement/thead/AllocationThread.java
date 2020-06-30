@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class AllocationThread implements Runnable {
 
+    ////////////////
     private static final Logger log = LoggerFactory.getLogger(AllocationThread.class);
     Thread thread;
     ServerRepository serverRepository;
