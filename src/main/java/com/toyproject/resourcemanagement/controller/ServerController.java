@@ -20,7 +20,7 @@ public class ServerController {
 
     @Autowired
     ServerService serverService;
-
+    //
     @RequestMapping(path = "/api",method=RequestMethod.GET)
     public ResponseEntity<String> api(){
         return new ResponseEntity<String>("Welcome to the cloud service api",HttpStatus.OK);
