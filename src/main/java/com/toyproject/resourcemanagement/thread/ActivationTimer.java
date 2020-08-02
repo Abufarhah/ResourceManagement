@@ -1,4 +1,4 @@
-package com.toyproject.resourcemanagement.thead;
+package com.toyproject.resourcemanagement.thread;
 
 import com.toyproject.resourcemanagement.model.Server;
 import com.toyproject.resourcemanagement.repository.ServerRepository;

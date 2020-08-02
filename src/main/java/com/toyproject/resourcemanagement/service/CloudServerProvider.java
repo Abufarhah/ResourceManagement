@@ -2,8 +2,8 @@ package com.toyproject.resourcemanagement.service;
 
 import com.toyproject.resourcemanagement.model.Server;
 import com.toyproject.resourcemanagement.repository.ServerRepository;
-import com.toyproject.resourcemanagement.thead.ActivationTimer;
-import com.toyproject.resourcemanagement.thead.AllocationThread;
+import com.toyproject.resourcemanagement.thread.ActivationTimer;
+import com.toyproject.resourcemanagement.thread.AllocationThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
